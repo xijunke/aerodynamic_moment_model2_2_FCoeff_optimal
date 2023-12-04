@@ -25,14 +25,14 @@ xr_nd=xr/R_wingeff;      % x-root offset  无量纲展向偏置距离
 % yr_nd=yr/C_avereff;   % y-root offset  无量纲弦向偏置距离;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 已知r2_nd,求解r1_nd, r3_nd, 和r3_nd3
-r2_nd=0.5801;      %已知无量纲二阶面积矩r2_nd;    %由Hedrick程序计算而得non_dimensional_2ndMoment: 0.5801(更准) 
-r1_nd=1.106*r2_nd^1.366;  %2013-ICRA-Deng XY   % 输出: r1_nd =0.5257
-% r3_nd=0.9*r1_nd^0.581; %1984-JEB-Ellingdon;  % 输出: r3_nd =0.6194 % 由Hedrick程序计算而得 non_dimensional_3rdMoment: 0.6184(更准)     
-% r3_nd3=r3_nd^3;                   % r3_nd3=r3_nd^3
+% r2_nd=0.5801;      %已知无量纲二阶面积矩r2_nd;    %由Hedrick程序计算而得non_dimensional_2ndMoment: 0.5801(更准) 
+% r1_nd=1.106*r2_nd^1.366;  %2013-ICRA-Deng XY   % 输出: r1_nd =0.5257
+% % r3_nd=0.9*r1_nd^0.581; %1984-JEB-Ellingdon;  % 输出: r3_nd =0.6194 % 由Hedrick程序计算而得 non_dimensional_3rdMoment: 0.6184(更准)     
+% % r3_nd3=r3_nd^3;                   % r3_nd3=r3_nd^3
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-R_wingeff1=3.007;            % Hedrick程序计算而得
-xr_nd1=xr/R_wingeff1;      % x-root offset  无量纲展向偏置距离
-F_nd1=r2_nd^2+2*xr_nd1*r1_nd+xr_nd1^2;   %无量纲气动力分量F_nd1, 这里输出: F_nd1 =0.4635
+% R_wingeff1=3.007;            % Hedrick程序计算而得
+% xr_nd1=xr/R_wingeff1;      % x-root offset  无量纲展向偏置距离
+% F_nd1=r2_nd^2+2*xr_nd1*r1_nd+xr_nd1^2;   %无量纲气动力分量F_nd1, 这里输出: F_nd1 =0.4635
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -52,7 +52,7 @@ x_mod_Root=0.636;                                            % mm
 C_maxy=0.138924474377504;  % 针对程序wing_model_88_yaxis有: 第122行; C_maxy =0.1389; 
 yr_lead=-0.08249*x.^6+0.9167*x.^5-4.04*x.^4+8.872*x.^3-10.06*x.^2+5.674*x-0.413-x_mod_Root-C_maxy;  
 yr_trail=-0.0333*x.^6+0.504*x.^5-2.795*x.^4+7.258*x.^3-8.769*x.^2+3.739*x+0.1282-x_mod_Root-C_maxy;
-C_rx=yr_lead-yr_trail;      % 正确——量纲化实际弦长分布
+% C_rx=yr_lead-yr_trail;      % 正确——量纲化实际弦长分布
 % figure(1)  % 翅形貌——采用前缘拟合函数
 % plot(x,yr_lead,'r-',x,yr_trail,'b-')
 % xlabel('展向r (mm)')
@@ -66,8 +66,8 @@ C_rx=yr_lead-yr_trail;      % 正确——量纲化实际弦长分布
 % C_bem=yr_leadbem-yr_trailbem   % C_bem =1.1257mm;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 采用前缘拟合函数求解——实际平均弦长=面积/R_wingeff
-wing_aera=trapz(x,C_rx);             %输出: wing_aera =2.6597; % mm^2
-C_aver=wing_aera/R_wingeff;   % 输出量纲化平均弦长: C_avereff=C_aver =0.8854; % mm
+% wing_aera=trapz(x,C_rx);             %输出: wing_aera =2.6597; % mm^2
+% C_aver=wing_aera/R_wingeff;   % 输出量纲化平均弦长: C_avereff=C_aver =0.8854; % mm
 % % 采用第二种积分方法求解，貌似不对————XXXX
 % yr_lead1=inline('-0.08249*x.^6+0.9167*x.^5-4.04*x.^4+8.872*x.^3-10.06*x.^2+5.674*x-0.413-0.636-0.1389','x'); 
 % yr_trail1=inline('-0.0333*x.^6+0.504*x.^5-2.795*x.^4+7.258*x.^3-8.769*x.^2+3.739*x+0.1282-0.636-0.1389','x'); 
@@ -119,13 +119,13 @@ yr_leadnd0=yr_lead/C_avereff;
 P_coeff_lead=polyfit(r_nd,yr_leadnd0,6);
 % (b)  无量纲后缘分布函数
 yr_trailnd0=yr_trail/C_avereff;
-P_coeff_trail=polyfit(r_nd,yr_trailnd0,6);
+% P_coeff_trail=polyfit(r_nd,yr_trailnd0,6);
 % (c)  无量纲弦长分布函数
 Cr_nd=yr_leadnd0-yr_trailnd0;
 P_coeff_Cr=polyfit(r_nd,Cr_nd,6);  % 多项式系数  % Cr_nd2=polyval(Coeff,r_nd1);
 syms r_nd   % 无量纲弦长分布为6阶多项式——转换必须有这条指令
 yr_leadnd=vpa(poly2sym(P_coeff_lead,r_nd),6); 
-yr_trailnd=vpa(poly2sym(P_coeff_trail,r_nd),6);
+% yr_trailnd=vpa(poly2sym(P_coeff_trail,r_nd),6);
 Cr_nd=vpa(poly2sym(P_coeff_Cr,r_nd),6);  
 % yr_leadnd =-68.4639*r_nd^6+208.297*r_nd^5-245.231*r_nd^4+137.467*r_nd^3-36.8594*r_nd^2+4.79235*r_nd-0.156071;
 % yr_trailnd =-27.6379*r_nd^6+121.093*r_nd^5-185.804*r_nd^4+125.603*r_nd^3-33.1053*r_nd^2-0.145527*r_nd-0.156013;
@@ -160,9 +160,9 @@ Cr_nd=vpa(poly2sym(P_coeff_Cr,r_nd),6);
 %% 注意——该段程序切记不得修改，前提只要保证输入正确的无量纲弦长分布即可。
 %以下的公式应使用合理的无量纲的弦长分布公式C_nd
 C_nd=Cr_nd;
-R2nd2=double(int(r_nd^2*C_nd,r_nd,0,1)); %二阶面积矩的回转半径的平方
-R1nd1=double(int(r_nd*C_nd,r_nd,0,1));     %一阶面积矩的回转半径
-S_nd=double(int(C_nd,r_nd,0,1));                %无量纲翅面积 % S_nd =1.0000;
+% R2nd2=double(int(r_nd^2*C_nd,r_nd,0,1)); %二阶面积矩的回转半径的平方
+% R1nd1=double(int(r_nd*C_nd,r_nd,0,1));     %一阶面积矩的回转半径
+% S_nd=double(int(C_nd,r_nd,0,1));                %无量纲翅面积 % S_nd =1.0000;
 % disp(['二阶面积矩的回转半径的平方: r2_2nd=' num2str(R2nd2)  ' 量纲单位是mm^4'])
 % disp(['二阶面积矩的回转半径: r_2nd=' num2str(sqrt(R2nd2))  ' 量纲单位是mm^3'])
 % disp(['一阶面积矩的回转半径: r_1nd=' num2str(R1nd1)  ' 量纲单位是mm^3'])
@@ -174,7 +174,7 @@ fx1=(r_nd+xr_nd)^2*C_nd;    % 无量纲气动力F_nd的原始被积函数
 fx3=expand(fx1);
 F_ndTrans=double(int(fx3,r_nd,0,1));                    % Result: F_ndTrans =0.46391;
 % disp(['无量纲气动力F_ndTrans=' num2str(F_ndTrans)  ' 量纲单位是mm^4'])
-F_nd2=R2nd2+2*xr_nd*R1nd1+xr_nd^2;    %使用这句计算结果也正确; 输出:F_nd2 =0.46391;
+% F_nd2=R2nd2+2*xr_nd*R1nd1+xr_nd^2;    %使用这句计算结果也正确; 输出:F_nd2 =0.46391;
 % disp(['无量纲气动力F_ndTrans=' num2str(F_nd2)  ' 量纲单位是mm^4'])
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 输出:
@@ -221,8 +221,8 @@ I1y=(1/2)*Rou*C_avereff*R_wingeff^4*I1;         % 单位是 mg.mm^2  % I1y=0.0162
 %%%%%%%%%%%%%%%%%%%
 % (3)在扭转轴向上偏移C_maxy之后——用最大前缘点和最小后缘点弦向坐标差对应的片条长度来计算扭转轴的位置
 % ——在最大前缘后面的0.25*[最大前缘点y坐标和最小后缘点y坐标(即弦向坐标差)=C_max]位置时
-% C_maxy=0.138924474377504;
-C_maxynd=C_maxy/C_avereff;
+% % C_maxy=0.138924474377504;
+% C_maxynd=C_maxy/C_avereff;
 % yr_leadnd=yr_leadnd-C_maxynd;
 % yr_trailnd=yr_trailnd-C_maxynd;
 %%%%%%%%%%%%%%%%%%%
@@ -308,21 +308,21 @@ I6z=pi*Rou*C_avereff^3*R_wingeff*I6/4;           % 单位是 mg.mm  % I6z =0.000771
 % (5) 虚质量气动力矩参数——虚质量转动惯量I7y——绕翅平面下的弦向轴
  I7y=pi*Rou*C_avereff^2*R_wingeff^3*I2/4;     % 单位是 mg.mm^2
 %% (a) 弦向压心——展向轴气动力矩/法向气动力% 量纲化需要乘以*C_avereff  or c(r)@r=(R+x_rnd)*r_xcopnd_tr;...
-% c_zcopnd_tr=I1/F_ndTrans;  % XXX       % Y_rcpnd_transaver=0.1715; % *C_avereff  or C(r) @r=R*r_xcopnd_tr;...
-% c_zcopnd_rot=I2/F_ndRot;    % XXX       % Y_rcpnd_rotaver=0.1677;   % *C_avereff  or C(r) @r=R*r_xcopnd_rot;...
-% 弦向虚质量力集成的平均压心——对应的是每个片条的中弦点
-c_zcopnd_addaver=-0.3058;        % c_zcopnd_add=M_xam./F_yadd1;%c_zcopnd_addaver=mean(c_zcopnd_add); 
-% c_zcopnd_addtr=I3/F_ndRot;   % c_zcopnd_addtr=0.1587;    % *C_avereff or C(r) @r=R*r_xcopnd_addtr;...
-% c_zcopnd_addrot=I4/I6;           % c_zcopnd_addrot=0.4816;  % *C_avereff or C(r) @r=R*r_xcopnd_addrot;...
+% % c_zcopnd_tr=I1/F_ndTrans;  % XXX       % Y_rcpnd_transaver=0.1715; % *C_avereff  or C(r) @r=R*r_xcopnd_tr;...
+% % c_zcopnd_rot=I2/F_ndRot;    % XXX       % Y_rcpnd_rotaver=0.1677;   % *C_avereff  or C(r) @r=R*r_xcopnd_rot;...
+% % 弦向虚质量力集成的平均压心——对应的是每个片条的中弦点
+% c_zcopnd_addaver=-0.3058;        % c_zcopnd_add=M_xam./F_yadd1;%c_zcopnd_addaver=mean(c_zcopnd_add); 
+% % c_zcopnd_addtr=I3/F_ndRot;   % c_zcopnd_addtr=0.1587;    % *C_avereff or C(r) @r=R*r_xcopnd_addtr;...
+% % c_zcopnd_addrot=I4/I6;           % c_zcopnd_addrot=0.4816;  % *C_avereff or C(r) @r=R*r_xcopnd_addrot;...
 %% (b) 展向压心——弦向轴气动力矩/法向气动力 % 量纲化需要乘以*R_wingeff 而不是  *(R_wingeff+xr)  
-% format long
-r_xcopnd_tr=I1/F_ndTrans;   % r_xcopnd_tr =0.788691874094779; % r_xcopnd_tr= 0.7887;          % *R_wingeff
-r_xcopnd_rot=I2/F_ndRot;    % r_xcopnd_rot =0.712638285096407;  % r_xcopnd_rot =0.7126;        % *R_wingeff  
-% 展向虚质量力集成的平均压心——对应一个特征展向位置
-r_xcopnd_addaver=0.7320;  % r_xcopnd_add=M_zadd./F_yadd1;  % r_xcopnd_addaver=mean(r_xcopnd_add); 
-% r_xcopnd_addtr=I2/F_ndRot;   % r_xcopnd_addtr=0.7126;     % *R_wingeff
-% r_xcopnd_addrot=I3/I6;           % r_xcopnd_addrot=0.5837;   % *R_wingeff
-% format short
+% % format long
+% r_xcopnd_tr=I1/F_ndTrans;   % r_xcopnd_tr =0.788691874094779; % r_xcopnd_tr= 0.7887;          % *R_wingeff
+% r_xcopnd_rot=I2/F_ndRot;    % r_xcopnd_rot =0.712638285096407;  % r_xcopnd_rot =0.7126;        % *R_wingeff  
+% % 展向虚质量力集成的平均压心——对应一个特征展向位置
+% r_xcopnd_addaver=0.7320;  % r_xcopnd_add=M_zadd./F_yadd1;  % r_xcopnd_addaver=mean(r_xcopnd_add); 
+% % r_xcopnd_addtr=I2/F_ndRot;   % r_xcopnd_addtr=0.7126;     % *R_wingeff
+% % r_xcopnd_addrot=I3/I6;           % r_xcopnd_addrot=0.5837;   % *R_wingeff
+% % format short
 %% (c) 展向压心——法向轴气动力矩/法向气动力
 % r_ycopnd_tr1=I1/F_ndTrans;                          % r_ycopnd_tr= 0.7887;
 % r_ycopnd_rot1=I2/F_ndRot;                           % r_ycopnd_rot =0.7126;  

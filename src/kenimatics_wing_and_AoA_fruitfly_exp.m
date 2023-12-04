@@ -22,7 +22,6 @@ ddpsi=inline(vectorize(ddpsi1),'w','t');  %数值函数
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 给各个函数赋值
 f=188.7; T=1/f;  %翅拍频率 (Hz)和周期  % w =1185.6; 
-% t=linspace(0.0052824335,0.0052824335+3*T,1000);  % t_steady1   
 t=linspace(0.0052824335,0.0052824335+3*T,3435);  % t_steady1   
 % t=linspace(0,T,1145);  % t_steady1——用于与Science测的机械果蝇翅膀的气动力数据进行对比   
 dphi=dphi(w,t);         %(1*100)的行向量——拍打角速率                                                           % 输出
@@ -42,7 +41,7 @@ psi=-(4.2936+1.8536*cos(t*w)+59.6529*sin(t*w)+5.1852*cos(2*t*w)+1.6095*sin(2*t*w
 % [phi_min,k]=min(phi);  % 输出:  phi_min =-1.0157;  k =10756;      
 % t_0=t(k);                       % 输出: t0 =0.0028;  
 % figure(2)       % 图1——拍打角和扭转角
-% % subplot(311)
+% subplot(311)
 % plot(t/T,phi*180/pi,'r-',t/T,psi*180/pi,'b-','LineWidth',2)  %转换为ms 和 度数degree   *10^3   *180/pi
 % xlabel('\itNormalized time')
 % ylabel('\itAngle (°)')
@@ -78,27 +77,27 @@ psi=-(4.2936+1.8536*cos(t*w)+59.6529*sin(t*w)+5.1852*cos(2*t*w)+1.6095*sin(2*t*w
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Plot-扭转角和几何攻角AOA
-% % alpha1=pi/2+psi.*sign(dphi);        %(1*200)的行向量——几何攻角——弧度制        %输出——全正几何攻角 
-% alpha1=pi/2-psi.*sign(dphi);        %(1*200)的行向量——几何攻角——弧度制        %输出——全正几何攻角  % 实测扭转角前负号
-% % Y = sign(X) returns an array Y the same size as X, where each element of Y is:
-% % *1 if the corresponding element of X is greater than zero
-% % * 0 if the corresponding element of X equals zero
-% % *-1 if the corresponding element of X is less than zero
+% alpha1=pi/2+psi.*sign(dphi);        %(1*200)的行向量——几何攻角——弧度制        %输出——全正几何攻角 
+alpha1=pi/2-psi.*sign(dphi);        %(1*200)的行向量——几何攻角——弧度制        %输出——全正几何攻角  % 实测扭转角前负号
+% Y = sign(X) returns an array Y the same size as X, where each element of Y is:
+% *1 if the corresponding element of X is greater than zero
+% * 0 if the corresponding element of X equals zero
+% *-1 if the corresponding element of X is less than zero
 % figure(2)                                                              % 图2—— 注意这里几何攻角始终取正值
 % % % x_interval=[0,1/2,1/2,0];
 % % % y_interval=[-100,-100,100,100];
 % % % fill(x_interval,y_interval,'y');
 % % % hold on
 % % % legend('','\it\psi(t)','\it\alpha_1(t)')
-% plot(t/T,psi*180/pi,'b-',t/T,alpha1*180/pi,'g-','LineWidth',2)      %扭转角和几何攻角AOA随时间的变化规律
+% plot(t/T,psi*180/pi,'b-',t/T,alpha1*180/pi,'g-')      %扭转角和几何攻角AOA随时间的变化规律
 % xlabel('\itNormalized time')
 % ylabel('\itAngle (°)')
 % legend('\it\psi(t)','\it\alpha_1(t)')
 % hold on
-% % L=length(t);
-% % plot([0,t(L)/T],[0,0],'k-');     %画x-axis
-% % title('扭转角和几何攻角alpha_1随时间的变化规律') 
-% % grid on
+% L=length(t);
+% plot([0,t(L)/T],[0,0],'k-');     %画x-axis
+% title('扭转角和几何攻角alpha_1随时间的变化规律') 
+% grid on
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -124,7 +123,7 @@ alpha2=atan2(-v_y_nonr,v_z_nonr);   % 正确——注意与下文的alpha=atan2(omega_z,-o
 % legend('\alpha_1 (t)','\alpha_2 (t)')
 % title('攻角随时间的变化规律')   % 攻角随时间的变化规律
 % grid on
-% % axis([0.9,4.05,-inf,inf])
+% axis([0.9,4.05,-inf,inf])
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -174,7 +173,7 @@ C_T=0.4*(cos(2*alpha)).^2.*(alpha>-pi/4 & alpha<pi/4);       %切向气动力系数输出
 % grid on
 % axis([0.9,4.05,-inf,inf])
 % figure(5)     % 图7—翅坐标系下—法向和切向气动力系数
-% plot(t/T,C_N3,'r-',t/T,C_T,'b-','LineWidth',2)                                % 得到的法向和切向气动力系数需要核实
+% plot(t/T,C_N3,'r-',t/T,C_T,'b-')                                % 得到的法向和切向气动力系数需要核实
 % xlabel('Normalized time')
 % ylabel('C_N3(\alpha(t)) & C_T(\alpha (t))')
 % legend('C_{N3}(\alpha)','C_T(\alpha)')

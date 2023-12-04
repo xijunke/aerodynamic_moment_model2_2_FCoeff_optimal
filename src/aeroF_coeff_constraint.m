@@ -2,8 +2,9 @@ function coeff_con=aeroF_coeff_constraint(x)
 % 建立气动力矩系数约束之外的惩罚函数
 % k_C_N=x(1);  k_C_R=x(2);  k_add=x(3);  k_inert=x(4);
 % fcn_con=aeroF_coeff_constraint(x);
-LB=[0.5,0.5,0.2,0.1];     % Lower bound  % 4个变量 
-UB=[2,3,3,2];             % Upper bound  % 4个变量
+LB=[1,0.5,0.2,0.1];              % Lower bound  % 4个变量 
+UB=[2,3,3,2];                     % Upper bound     % 4个变量
+% x =[1.0000,0.5000,0.5716,0.0241];  fval =39.5202;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 N=length(x);
 con_min=LB;

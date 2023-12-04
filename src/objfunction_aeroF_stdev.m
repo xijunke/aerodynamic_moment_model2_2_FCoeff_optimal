@@ -1,41 +1,18 @@
-% function obj_function=objfunction_aeroF_stdev(x)
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function obj_function=objfunction_aeroF_stdev(x)
 % Ô­Ê¼ÎÄ¼şÃû¡ª¡ªAero_F3_fruitfly_exp
-% objfunction_aeroF_stdev
+% objfunction_aeroF_coeff
 % (1)Éæ¼°Çó½â×¼ÎÈÌ¬ÀíÂÛÔ¤²â¶øµÃµÄ³æÌå×ø±êÏµµÄÆø¶¯Á¦ºÍÊµÑé²âÊÔ»úĞµ¹ûÓ¬Ä£ĞÍ»ñµÃµÄÊı¾İÖ®²îµÄ±ê×¼·½²î
 % (2) ¿ÉÒÔ¿¼ÂÇ³á°ò¹ßĞÔÁ¦ºÍ²»¿¼ÂÇ³á°ò¹ßĞÔÁ¦£¬·Ö±ğ½øĞĞÓÅ»¯
 % (3) Éæ¼°Õë¶ÔËÄ¸öÆø¶¯Á¦ÏµÊıµÄ³Í·£ÏîµÄÔ¼Êø;¡ª¡ªF_N=F_ytran+F_yrot+F_yadd1+F_inert_y;
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % tic
-% x=[1,1,0.356737,1,1];
-% x=[1,1,1,1,0];  % obj_function =40.1316;
-% k_C_N=x(1);
-% k_C_R=x(2);
-% x0_nd=x(3);  % Å¤×ªÖáµÄÎ»ÖÃ x0_nd=0.356737;
-% k_add=x(4);
-% k_inert=x(5);
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-clear all;clc;
-% % x=[1,1.281,1,1];
-x=[1,1.8,0.35,1]; % ±Èx=[1,1.8,0.15,1]; ÒªºÃµãÅ¶
-% x=[0.85,0.75,0.05,1]; 
-% x =[1,0.5,0.571,0.01];  % obj_function =36.6581;
-% x =[0.5,0.5,0.2000];  %fval =18.7559;
-% x =[0.5, 0.5,1.0889]; % fval = 12.6197;
-% x =[1,0.5,0.5,0.01];
-% x =[1,0.5,0.5,0.5,0];
-% x =[1.0000,1.0000,0.7500,0.5643,1.5000];  % fval =35.5047;  % Elapsed time is 583.787292 seconds. %F_NÃ»ÓĞ¿¼ÂÇ¹ßĞÔÁ¦£¬k_inertµÄËæ»ú½á¹û1.5£¬ÓëÊµ²â½á¹û²»·ûºÏ
-% x =[1.0000,1.6003,0.7500,0.5574,0.0100]; % fval =35.5099;
-% x= [1.0000,0.5000,0.3634, 0.5000];  % fval =36.8167;
+% x =[1,1,1,1];  % obj_function=40.1316;
+% x =[1,0.5,0.5716,0.0241];  % fval =39.5202; % »ìºÏGA¡ª¡ªÕë¶ÔÁ½Ö»³á°òµÄÆø¶¯Á¦ÏµÊı
+% x =[1,0.5,0.571,0.01];    % fval =39.5127;    % Ä£Ê½ËÑË÷
 % x =[1.0000,0.5000,0.3358,0.5000];       % fval=36.5981; 
-% x =[1.0000,1.6003,0.7500,1]; 
 k_C_N=x(1);
-k_C_R=x(2);
-% x0_nd=x(3);  % Å¤×ªÖáµÄÎ»ÖÃ 
-x0_nd=0.356737; % Å¤×ªÖáµÄÎ»ÖÃ 
-k_add=x(3);
-k_inert=x(4);
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+k_C_R=x(2); % ÆäÈ¡ÖµC_R=1.55; k_C_R*C_R¿ÉÒÔ¾ßÓĞÒ»¶¨µÄÈÎÒâĞÔ
+k_add=x(3); % ĞéÖÊÁ¿ÏµÊıÈ¡0.5ÊÇ¿ÉÒÔ¿¼ÂÇµÄ
+k_inert=x(4); % ¹ßĞÔÖÊÁ¿¿ÉÓĞ¿ÉÎŞ=0.0241
 %% Æø¶¯Á¦: Solution of the aerodynamic force
 % ĞŞ¸ÄÊ±¼ä¡ª¡ª2014Äê12ÔÂ20ÈÕ,11:54¡ª¡ª×ª¶¯ÖáÆ«ÀëÏÒÏòÖĞµãµÄÆ«ÒÆÁ¿×ø±ê,ÔÚÅ¤×ªÖáÏòÉÏÆ«ÒÆC_maxyÖ®ºó
 % clear all;clc;
@@ -83,10 +60,10 @@ dphi=wing_kenimatics(:,5);          % µ¥Î»ÊÇrad/s
 dpsi=wing_kenimatics(:,6);          % µ¥Î»ÊÇrad/s
 ddphi=wing_kenimatics(:,7);       % µ¥Î»ÊÇrad/s^2
 ddpsi=wing_kenimatics(:,8);     % µ¥Î»ÊÇrad/s^2
-C_L=wing_kenimatics(:,9);          
-C_D=wing_kenimatics(:,10);     
+% C_L=wing_kenimatics(:,9);          
+% C_D=wing_kenimatics(:,10);     
 C_N1=wing_kenimatics(:,11);   
-C_T=wing_kenimatics(:,12);   
+% C_T=wing_kenimatics(:,12);   
 C_N=C_N1;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -96,27 +73,27 @@ C_N=C_N1;
 omega_x=dpsi;                     % Õ¹Ïò
 omega_y=dphi.*sin(psi);       % ·¨Ïò(³õÊ¼Ïò×ó)
 omega_z=dphi.*cos(psi);      % ÏÒÏò³¯ÉÏ
-omega_h=dphi;       % ½ÂÁ´µÄ½ÇËÙ¶È% omega_h=-sqrt(omega_y^2+omega_z^2);  % ÓÒÊÖ·¨ÔòË³Ê±Õë
+% omega_h=dphi;       % ½ÂÁ´µÄ½ÇËÙ¶È% omega_h=-sqrt(omega_y^2+omega_z^2);  % ÓÒÊÖ·¨ÔòË³Ê±Õë
 % ³á°ò×ø±êÏµÏÂµÄ½Ç¼ÓËÙ¶È¡ª¡ªÓÃÓÚĞéÖÊÁ¿Á¦µÄ¼ÆËã
 domega_x=ddpsi;
-domega_y=ddphi.*sin(psi)+dphi.*dpsi.*cos(psi);
+% domega_y=ddphi.*sin(psi)+dphi.*dpsi.*cos(psi);
 domega_z=ddphi.*cos(psi)-dphi.*dpsi.*sin(psi); 
-%% Æø¶¯¹¥½ÇºÍµ±µØÁ÷³¡ËÙ¶ÈµÄ¼ÆËã¡ª¡ªÈ¡Á÷²úËÙ¶ÈÏà¶ÔÓÚ¸ÕÌåºÃÁËËÙ¶È£¬ËùÒÔÕûÌå¼Ó¸ººÅ£»
-v_y_nonr=-omega_z;   % v_y=r*dphi*cos(psi)
-v_z_nonr=omega_y;    % v_z=-r*dphi*sin(psi)
-% alpha2=atan2(-v_y_nonr,v_z_nonr);   % ÕıÈ·¡ª¡ª×¢ÒâÓëÏÂÎÄµÄalpha=atan2(omega_z,-omega_y)*180/pi; ²»Í¬
+%% Æø¶¯¹¥½ÇºÍµ±µØÁ÷³¡ËÙ¶ÈµÄ¼ÆËã
+v_y_nonr=omega_z;   % v_y=r*dphi*cos(psi)
+v_z_nonr=-omega_y;    % v_z=-r*dphi*sin(psi)
+% alpha2=atan2(v_y_nonr,v_z_nonr);   % ÕıÈ·¡ª¡ª×¢ÒâÓëÏÂÎÄµÄalpha=atan2(omega_z,-omega_y)*180/pi; ²»Í¬
 % % ÓÉÓÚalpha=atan2(cot(psi))=atan2(cot(pi/2-alpha))=atan2(tan(alpha)); %ÕâÀïatan2¸ø³öÏóÏŞÕı¸ºÖµ£¬ÓÈÆäÊÇalpha>pi/2Ê±
 V_nonr=sqrt(v_y_nonr.^2+v_z_nonr.^2); % µ±µØÀ´Á÷ËÙ¶ÈV_nonr=omega_h=dphi;   % µ¥Î»ÊÇ rad/s
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% xr=0.3289;  % x-root offset  \mm      % R_wingeff=wing_para(1,1);  % R_wingeff =3.0040;   % µ¥Î»ÊÇ mm
-% R_ref=(xr+R_wingeff)*10^(-3);  
-% R_ref_non=3.3293*10^(-3);
-R_ref_non=1;   % r2_nd=0.5801;   
-v_y=R_ref_non*omega_z;
-v_z=-R_ref_non*omega_y;
-V_ref=sqrt(v_y.^2+v_z.^2);
+% % xr=0.3289;  % x-root offset  \mm      % R_wingeff=wing_para(1,1);  % R_wingeff =3.0040;   % µ¥Î»ÊÇ mm
+% % R_ref=(xr+R_wingeff)*10^(-3);  
+% % R_ref_non=3.3293*10^(-3);
+% R_ref_non=1;   % r2_nd=0.5801;   
+% v_y=R_ref_non*omega_z;
+% v_z=-R_ref_non*omega_y;
+% V_ref=sqrt(v_y.^2+v_z.^2);
 f=188.7;  T=1/f;          % Hz
-V_ref_aver=trapz(t,V_ref)/(3*T);    % Òí¼â²Î¿¼ËÙ¶È: V_ref_aver=867.0901rad/s;
+% V_ref_aver=trapz(t,V_ref)/(3*T)    % Òí¼â²Î¿¼ËÙ¶È: V_ref_aver=867.0901rad/s;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -125,18 +102,18 @@ V_ref_aver=trapz(t,V_ref)/(3*T);    % Òí¼â²Î¿¼ËÙ¶È: V_ref_aver=867.0901rad/s;
 % C_avereff;  R_wingeff;    F_nd;                ¡ª¡ª¡ª¡ª¡ª¡ªÕâ×éÊı¾İÀ´×Ô³áĞÎÃ²²ÎÊı»¯;% F_nd=0.50236;
 % omega_h;  C_L(alpha);  C_D(alpha);       ¡ª¡ª¡ª¡ª¡ª¡ªÕâ×éÊı¾İÀ´×Ô³á2DOFÔË¶¯½ÂÁ´½ÇËÙÂÊ, ¹¥½Ç
 %%  Coeff_liftdragF_N   %µ¥Î»  mg.mm=*10^(-9)kg.m
-% g=9.821*10^(-6);   % ÕâÀïÖØÁ¦¼ÓËÙ¶È:g=9.821N/kg=9.821*10^(-6)=9.821e-006   N/mg  ¡ª¡ªgµÄ¹ú¼Êµ¥Î»ÊÇm*s^-2»òN*kg^-1
-g=9.821;   % ÕâÀïÖØÁ¦¼ÓËÙ¶È:g=9.821N/kg=9.821*10^(-6)=9.821e-006   N/mg  ¡ª¡ªgµÄ¹ú¼Êµ¥Î»ÊÇm*s^-2»òN*kg^-1
-% lift_inst=V_nonr.^2.*C_L*Coeff_liftdragF_N*10^(-3)/g;      % µ¥Î»ÊÇrad^2*s^-2*kg*m / (m*s^-2)=mg
-% drag_inst=V_nonr.^2.*C_D*Coeff_liftdragF_N*10^(-3)/g;  % µ¥Î»ÊÇrad^2*s^-2*kg*m / (m*s^-2)=mg
-lift_inst=V_nonr.^2.*C_L*Coeff_liftdragF_N*10^(-3);      % µ¥Î»ÊÇrad^2*s^-2*kg*m / (m*s^-2)=mg
-drag_inst=V_nonr.^2.*C_D*Coeff_liftdragF_N*10^(-3);  % µ¥Î»ÊÇrad^2*s^-2*kg*m / (m*s^-2)=mg
+% % g=9.821*10^(-6);   % ÕâÀïÖØÁ¦¼ÓËÙ¶È:g=9.821N/kg=9.821*10^(-6)=9.821e-006   N/mg  ¡ª¡ªgµÄ¹ú¼Êµ¥Î»ÊÇm*s^-2»òN*kg^-1
+% g=9.821;   % ÕâÀïÖØÁ¦¼ÓËÙ¶È:g=9.821N/kg=9.821*10^(-6)=9.821e-006   N/mg  ¡ª¡ªgµÄ¹ú¼Êµ¥Î»ÊÇm*s^-2»òN*kg^-1
+% % lift_inst=V_nonr.^2.*C_L*Coeff_liftdragF_N*10^(-3)/g;      % µ¥Î»ÊÇrad^2*s^-2*kg*m / (m*s^-2)=mg
+% % drag_inst=V_nonr.^2.*C_D*Coeff_liftdragF_N*10^(-3)/g;  % µ¥Î»ÊÇrad^2*s^-2*kg*m / (m*s^-2)=mg
+% lift_inst=V_nonr.^2.*C_L*Coeff_liftdragF_N*10^(-3);      % µ¥Î»ÊÇrad^2*s^-2*kg*m / (m*s^-2)=mg
+% drag_inst=V_nonr.^2.*C_D*Coeff_liftdragF_N*10^(-3);  % µ¥Î»ÊÇrad^2*s^-2*kg*m / (m*s^-2)=mg
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%¶ÔË²Ê±Æø¶¯Éı×èÁ¦Ê¹ÓÃÌİĞÎ»ı·Öº¯Êıtrapz½øĞĞÊıÖµ»ı·Ö£¬³ıÒÔÖÜÆÚ, Çó½âÆ½¾ùÉı×èÁ¦
-lift_aver=trapz(t,lift_inst)/(3*T);                            % lift_aver =1.0913 
-drag_aver=trapz(t,drag_inst)/(3*T);                      % drag_aver =0.9887
-drag_instabs_aver=trapz(t,abs(drag_inst))/(3*T);        
-lift2drag_aver=lift_aver/drag_instabs_aver;         % ÉıÁ¦ºÍ×èÁ¦±ÈÖµ: lift2drag_aver =1.1037¡ª¡ª²»ÊÇÉı×èÏµÊıµÄ±ÈÖµ£¬Ã»ÓĞÊµ¼ÊÒâÒå£¿
+% %¶ÔË²Ê±Æø¶¯Éı×èÁ¦Ê¹ÓÃÌİĞÎ»ı·Öº¯Êıtrapz½øĞĞÊıÖµ»ı·Ö£¬³ıÒÔÖÜÆÚ, Çó½âÆ½¾ùÉı×èÁ¦
+% lift_aver=trapz(t,lift_inst)/(3*T)                            % lift_aver =1.0913 
+% drag_aver=trapz(t,drag_inst)/(3*T)                      % drag_aver =0.9887
+% drag_instabs_aver=trapz(t,abs(drag_inst))/(3*T);        
+% lift2drag_aver=lift_aver/drag_instabs_aver         % ÉıÁ¦ºÍ×èÁ¦±ÈÖµ: lift2drag_aver =1.1037¡ª¡ª²»ÊÇÉı×èÏµÊıµÄ±ÈÖµ£¬Ã»ÓĞÊµ¼ÊÒâÒå£¿
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % figure(10)
 % F_LD=plot(t/T,lift_inst,'r-',t/T,drag_inst,'b:','LineWidth',2);   
@@ -166,8 +143,8 @@ lift2drag_aver=lift_aver/drag_instabs_aver;         % ÉıÁ¦ºÍ×èÁ¦±ÈÖµ: lift2drag_
 % axis([0.9,4.05,-inf,inf])
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% µ¥Î»ÊÇrad^2*s^-2*kg*m / (m*s^-2)=mg
 F_ytran=-k_C_N*sign(alpha).*V_nonr.^2.*abs(C_N)*Coeff_liftdragF_N*10^(-3);   % µ¥Î»ÊÇrad^2*s^-2*mg*mm=10^(-9)N=10^(-9)*10^6uN
-F_ytran_aver=trapz(t,abs(F_ytran))/(3*T);   % F_ytran_aver =14.5887uN;
-F_ztran=-sign(alpha).*V_nonr.^2.*C_T*Coeff_liftdragF_N*10^(-3);  
+% F_ytran_aver=trapz(t,abs(F_ytran))/(3*T);   % F_ytran_aver =14.5887uN;
+% F_ztran=-sign(alpha).*V_nonr.^2.*C_T*Coeff_liftdragF_N*10^(-3);  
 % F_ytran=V_nonr.^2.*C_N*Coeff_liftdragF_N*10^(-3); 
 % F_ztran=V_nonr.^2.*C_T*Coeff_liftdragF_N*10^(-3);  
 % figure(12)
@@ -179,8 +156,8 @@ F_ztran=-sign(alpha).*V_nonr.^2.*C_T*Coeff_liftdragF_N*10^(-3);
 % grid on
 % axis([0.9,4.05,-inf,inf])
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-F_vert_tran=-sign(alpha).*F_ytran.*cos(alpha);              % ´¹Ö±·½Ïòvertical, %µ¥Î»ÊÇuN  %  
-F_horiz_tran=F_ytran.*sin(abs(alpha));                           % Ë®Æ½·½Ïòhorizontal,%µ¥Î»ÊÇuN
+% F_vert_tran=-sign(alpha).*F_ytran.*cos(alpha);              % ´¹Ö±·½Ïòvertical, %µ¥Î»ÊÇuN  %  
+% F_horiz_tran=F_ytran.*sin(abs(alpha));                           % Ë®Æ½·½Ïòhorizontal,%µ¥Î»ÊÇuN
 % figure(13)                  % ¸ÃÆø¶¯Á¦ÓĞĞ©Ğ¡  
 % hold on
 % plot(t/T,F_vert_tran,'k-',t/T,F_horiz_tran,'r-','LineWidth',2)
@@ -200,13 +177,10 @@ F_horiz_tran=F_ytran.*sin(abs(alpha));                           % Ë®Æ½·½Ïòhoriz
 % omega_h;  omega_x;                    ¡ª¡ª¡ª¡ª¡ª¡ªÕâ×éÊı¾İÀ´×Ô³á2DOFÔË¶¯½ÂÁ´½ÇËÙÂÊ, ³á½ÇËÙÂÊ
 % F_zrot=(1/2)*Rou*R_wingeff^2*C_avereff^2*C_R*omega_x.*omega_h*F_ndRot*(10^(-12)*10^3);%µ¥Î»ÊÇmN¡ª¡ªÎ´¿¼ÂÇ·½Ïò
 % F_y_rot=C_R*sign(alpha2).*abs(omega_x).*abs(omega_h)*F_y_rotcoeff*10^6;    % µ¥Î»ÊÇuN
-% x0_nd=0.356737;
-C_R=pi*(0.75-x0_nd);
-% C_R=1;  
-% C_R=1.55;
+C_R=1; % C_R=1.55;
 % F_yrot=-C_R*sign(alpha).*omega_x.*V_nonr*F_yrotcoeff*10^(-3); % 
 F_yrot=k_C_R*C_R*omega_x.*V_nonr*F_yrotcoeff*10^(-3);      % µ¥Î»ÊÇrad^2*s^-2*kg*m=10^(-9)N=10^(-9)*10^6uN
-F_yrot_aver=trapz(t,abs(F_yrot))/(3*T);                             % F_yrot_aver =2.8944uN
+% F_yrot_aver=trapz(t,abs(F_yrot))/(3*T);                             % F_yrot_aver =2.8944uN
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % figure(14)                  % ¸ÃÆø¶¯Á¦ÓĞĞ©Ğ¡  
 % hold on
@@ -219,8 +193,8 @@ F_yrot_aver=trapz(t,abs(F_yrot))/(3*T);                             % F_yrot_ave
 % axis([0.9,4.05,-inf,inf])
 % set(gca,'XTick',(0.9:0.1:4.05))
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-F_vert_rot=-sign(alpha).*F_yrot.*cos(alpha);              % ´¹Ö±·½Ïòvertical, %µ¥Î»ÊÇuN  %  
-F_horiz_rot=F_yrot.*sin(abs(alpha));                          % Ë®Æ½·½Ïòhorizontal,%µ¥Î»ÊÇuN
+% F_vert_rot=-sign(alpha).*F_yrot.*cos(alpha);              % ´¹Ö±·½Ïòvertical, %µ¥Î»ÊÇuN  %  
+% F_horiz_rot=F_yrot.*sin(abs(alpha));                          % Ë®Æ½·½Ïòhorizontal,%µ¥Î»ÊÇuN
 % figure(15)                  % ¸ÃÆø¶¯Á¦ÓĞĞ©Ğ¡  
 % hold on
 % plot(t/T,F_vert_rot,'k-',t/T,F_horiz_rot,'r-','LineWidth',2)
@@ -246,26 +220,22 @@ F_horiz_rot=F_yrot.*sin(abs(alpha));                          % Ë®Æ½·½Ïòhorizont
 % ×¢Òâ¹«Ê½Ç°(-)·û¡ª¡ª¸ù¾İ¹ûÓ¬³á°ò×ø±êÏµĞŞ¸ÄÁË½ÇËÙ¶ÈºÍ½Ç¼ÓËÙ¶È
 % F_yadd1=-(I5y*(domega_z+omega_x.*omega_y)-I6y*domega_x/4)*10^(-3); %µ¥Î»ÊÇrad^2*s^-2*kg*m=N=10^6uN % Óë2001-JEBÆ¥Åä
 % F_yadd1=-(I5y*(domega_z+omega_x.*omega_y)+I6y*domega_x)*10^(-3); % ĞŞ¸ÄÁËÔ­ÎÄÍÆ³öµÄ¹«Ê½µÄÕı¸ººÅ,ÇÒ²»º¬/4  % ¡ª¡ªµÚÒ»·½°¸
-% F_yadd1=k_add*(-I5y*(domega_z+omega_x.*omega_y)+I6y*domega_x)*10^(-3);    % ĞŞ¸ÄÁËÔ­ÎÄÍÆ³öµÄ¹«Ê½µÄÕı¸ººÅ,ÇÒ²»º¬/4  % ¡ª¡ªµÚ¶ş·½°¸
-F_yadd1=k_add*(I5y*(domega_z+omega_x.*omega_y)+I6y*domega_x)*10^(-3);  
-% domega_z=ddphi.*cos(psi)-dphi.*dpsi.*sin(psi); 
-% F_yadd1=k_add*(I5y*(ddphi.*cos(psi)+dphi.*dpsi.*sin(psi))+I6y*domega_x)*10^(-3);  
-F_yadd1_aver=trapz(t,abs(F_yadd1))/(3*T);       % F_yadd1_aver=6.0929uN(old);  F_yadd1_aver=4.5472;
-% (2)ÏÂÃæÊÇ2001-JEB-Sanjay SP-ĞéÖÊÁ¿Æø¶¯Á¦¹«Ê½
-% F_yadd2=(I5y*(ddphi.*sin(alpha)+dphi.*dalpha.*cos(alpha))-(I6y/4)*ddalpha/4)*10^(-3);% Ô­ÎÄÍÆ³öµÄ¹«Ê½¡ª¡ª²»¶¯
-% ÏÂÃæµÄalpha1ÎªÈ«Õı¼¸ºÎ¹¥½Ç£¬ÓĞÕıÓĞ¸ºµÄdalpha1ºÍddalpha1
-% F_yadd2=-(I5y*(ddphi.*sin(alpha1)+dphi.*dalpha1.*cos(alpha1))-(I6y/4)*ddalpha1/4)*10^(-3); 
-% F_yadd2=-(I5y*(ddphi.*sin(alpha1)+dphi.*dalpha1.*cos(alpha1))+(I6y/4)*ddalpha1/4)*10^(-3); 
-% F_yadd2=-(I5y*(ddphi.*sin(alpha1)+dphi.*dpsi.*cos(alpha1))-(I6y/4)*ddpsi/4)*10^(-3); %ÕâÀïµÄdpsiºÍddpsi·½Ïò±ä»¯ĞèÒªÈ·¶¨
-% F_yadd2=-(I5y*(ddphi.*sin(alpha1)+dphi.*dpsi.*cos(alpha1))+(I6y/4)*ddpsi/4)*10^(-3); %ÕâÀïµÄdpsiºÍddpsi·½Ïò±ä»¯ĞèÒªÈ·¶¨
-% ÏÂÃæµÄalpha2ÓĞÕıÓĞ¸º, dalphaºÍddalphaĞèÒªÇóµ¼
-% F_yadd2=-(I5y*(ddphi.*sin(alpha)+dphi.*dalpha.*cos(alpha))-(I6y/4)*ddalpha/4)*10^(-3); 
-i=length(alpha);   % size(alpha)=(2000*1)
-dalpha=[diff(alpha);alpha(i,1)];    
-j=length(dalpha);
-ddalpha=[diff(dalpha);dalpha(j,1)];  % size(ddalpha)
+F_yadd1=k_add*(-I5y*(domega_z+omega_x.*omega_y)+I6y*domega_x)*10^(-3);    % ĞŞ¸ÄÁËÔ­ÎÄÍÆ³öµÄ¹«Ê½µÄÕı¸ººÅ,ÇÒ²»º¬/4  % ¡ª¡ªµÚ¶ş·½°¸
+% F_yadd1_aver=trapz(t,abs(F_yadd1))/(3*T);       % F_yadd1_aver=6.0929uN(old);  F_yadd1_aver=4.5472;
+% % (2)ÏÂÃæÊÇ2001-JEB-Sanjay SP-ĞéÖÊÁ¿Æø¶¯Á¦¹«Ê½
+% % F_yadd2=(I5y*(ddphi.*sin(alpha)+dphi.*dalpha.*cos(alpha))-(I6y/4)*ddalpha/4)*10^(-3);% Ô­ÎÄÍÆ³öµÄ¹«Ê½¡ª¡ª²»¶¯
+% % ÏÂÃæµÄalpha1ÎªÈ«Õı¼¸ºÎ¹¥½Ç£¬ÓĞÕıÓĞ¸ºµÄdalpha1ºÍddalpha1
+% % F_yadd2=-(I5y*(ddphi.*sin(alpha1)+dphi.*dalpha1.*cos(alpha1))-(I6y/4)*ddalpha1/4)*10^(-3); 
+% % F_yadd2=-(I5y*(ddphi.*sin(alpha1)+dphi.*dalpha1.*cos(alpha1))+(I6y/4)*ddalpha1/4)*10^(-3); 
+% % F_yadd2=-(I5y*(ddphi.*sin(alpha1)+dphi.*dpsi.*cos(alpha1))-(I6y/4)*ddpsi/4)*10^(-3); %ÕâÀïµÄdpsiºÍddpsi·½Ïò±ä»¯ĞèÒªÈ·¶¨
+% % F_yadd2=-(I5y*(ddphi.*sin(alpha1)+dphi.*dpsi.*cos(alpha1))+(I6y/4)*ddpsi/4)*10^(-3); %ÕâÀïµÄdpsiºÍddpsi·½Ïò±ä»¯ĞèÒªÈ·¶¨
+% % ÏÂÃæµÄalpha2ÓĞÕıÓĞ¸º, dalphaºÍddalphaĞèÒªÇóµ¼
+% % F_yadd2=-(I5y*(ddphi.*sin(alpha)+dphi.*dalpha.*cos(alpha))-(I6y/4)*ddalpha/4)*10^(-3); 
+% i=length(alpha);   % size(alpha)=(2000*1)
+% dalpha=[diff(alpha);alpha(i,1)];    
+% j=length(dalpha);
+% ddalpha=[diff(dalpha);dalpha(j,1)];  % size(ddalpha)
 % F_yadd2=-(I5y*(ddphi.*sin(abs(alpha))+dphi.*dalpha.*cos(abs(alpha)))-(I6y/4)*ddalpha/4)*10^(-3);% ¡ª¡ªµÚÒ»·½°¸
-F_yadd2=(I5y*(ddphi.*sin(abs(alpha))+dphi.*dalpha.*cos(abs(alpha)))-(I6y/4)*ddalpha/4)*10^(-3);
 %%%%%%%%%%%%%%%%%%%%%%%%%
 % figure(16)  % µ¥Î»ÊÇ mg.mm*rad^2.*s^-2=10^(-9) kg.m*s^-2=10^(-9)N=10^(6)uN;   %µ¥Î»ÊÇuN
 % F_yadd1_tran=-(I5y*(domega_z+omega_x.*omega_y))*10^(-3);  % ·¨ÏòĞéÖÊÁ¿Æø¶¯Á¦Æ½¶¯·ÖÁ¿¡ª¡ª³á°ò
@@ -278,8 +248,8 @@ F_yadd2=(I5y*(ddphi.*sin(abs(alpha))+dphi.*dalpha.*cos(abs(alpha)))-(I6y/4)*ddal
 % axis([0.9,4.05,-inf,inf])
 % set(gca,'XTick',(0.9:0.1:4.05))
 %%%%%%%%%%%%%%%%%%%%%%%%%
-F_vert_add=-sign(alpha).*F_yadd1.*cos(alpha);              % ´¹Ö±·½Ïòvertical, %µ¥Î»ÊÇuN  %  
-F_horiz_add=F_yadd1.*sin(abs(alpha));                          % Ë®Æ½·½Ïòhorizontal,%µ¥Î»ÊÇuN
+% F_vert_add=-sign(alpha).*F_yadd1.*cos(alpha);              % ´¹Ö±·½Ïòvertical, %µ¥Î»ÊÇuN  %  
+% F_horiz_add=F_yadd1.*sin(abs(alpha));                          % Ë®Æ½·½Ïòhorizontal,%µ¥Î»ÊÇuN
 % figure(17) 
 % plot(t/T,F_vert_add,'r-.',t/T,F_horiz_add,'g:','LineWidth',2) 
 % ylabel('·¨ÏòÆø¶¯Á¦·ÖÁ¿F_{norm}(t) (uN)'); 
@@ -312,13 +282,12 @@ F_horiz_add=F_yadd1.*sin(abs(alpha));                          % Ë®Æ½·½Ïòhorizon
 % % domega_y=ddphi.*sin(psi)+dphi.*dpsi.*cos(psi);
 % domega_z=ddphi.*cos(psi)-dphi.*dpsi.*sin(psi); 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% m_wing=2.4*10^-9;                    % kg
-% x_com=1.920243385*10^-3;      %  m                           % ÖÊĞÄµÄÕ¹Ïò×ø±ê
-% % z_com=-0.149785466+0.636=0.486215*10^-3;      % µ½Å¤×ªÖáµÄÏÒÏò¾àÀë
-% z_com=0.149785466*10^-3;       %  m                          % µ½Å¤×ªÖáµÄÏÒÏò¾àÀë
-% F_inert_y=-k_inert*m_wing*(domega_z*x_com-domega_x*z_com+omega_y.*(omega_x*x_com+omega_z*z_com))*10^6;  % ³á°ò×ÔÉí¹ßĞÔÁ¦¡ª·¨Ïò
-% % F_inert_y=-m_wing*(domega_z*x_com-domega_x*z_com+omega_y.*(omega_x*x_com+omega_z*z_com))*10^6; 
-% F_inert_z=-k_inert*m_wing*(-domega_y*x_com-omega_y.^2*z_com+omega_x.*(omega_z*x_com-omega_x*z_com))*10^6; % ³á°ò×ÔÉí¹ßĞÔÁ¦¡ªÏÒÏò
+m_wing=2.4*10^-9;                    % kg
+x_com=1.920243385*10^-3;      %  m                           % ÖÊĞÄµÄÕ¹Ïò×ø±ê
+% z_com=-0.149785466+0.636=0.486215*10^-3;      % µ½Å¤×ªÖáµÄÏÒÏò¾àÀë
+z_com=0.149785466*10^-3;       %  m                          % µ½Å¤×ªÖáµÄÏÒÏò¾àÀë
+F_inert_y=-k_inert*m_wing*(domega_z*x_com-domega_x*z_com+omega_y.*(omega_x*x_com+omega_z*z_com))*10^6;  % ³á°ò×ÔÉí¹ßĞÔÁ¦¡ª·¨Ïò
+% F_inert_z=-m_wing*(-domega_y*x_com-omega_y.^2*z_com+omega_x.*(omega_z*x_com-omega_x*z_com))*10^6; % ³á°ò×ÔÉí¹ßĞÔÁ¦¡ªÏÒÏò
 % % F_inert_y=-m_wing*(ddphi.*cos(psi)*x_com-(ddpsi-dphi.^2.*sin(2*psi)/2)*z_com)*10^6;       % ³á°ò×ÔÉí¹ßĞÔÁ¦¡ª·¨Ïò
 % % F_inert_z=-m_wing*(-ddphi.*sin(psi)*x_com-(dpsi.^2+dphi.^2.*(sin(psi)).^2)*z_com)*10^6;  % ³á°ò×ÔÉí¹ßĞÔÁ¦¡ªÏÒÏò
 % figure(19) 
@@ -344,8 +313,8 @@ F_horiz_add=F_yadd1.*sin(abs(alpha));                          % Ë®Æ½·½Ïòhorizon
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% ×ÜÆø¶¯Á¦¡ª¡ª ³á×ø±êÏµÏÂ£º×Ü(ºÏ³É)·¨ÏòÆø¶¯Á¦£ºÆ½¶¯Æø¶¯»·Á¿Á¦+Ğı×ªÆø¶¯»·Á¿Á¦+ĞéÖÊÁ¿Æø¶¯Á¦£»×÷ÓÃµã£ºÆ¬ÔªÏÒ³¤ÖĞµã
-F_N=F_ytran+F_yrot+F_yadd1;    % µ¥Î»ÊÇrad^2*s^-2*kg*m=N=10^6uN  ¡ª¡ª²»¿¼ÂÇ³á°ò¹ßĞÔÁ¦
-% F_N=F_ytran+F_yrot+F_yadd1+F_inert_y;    % µ¥Î»ÊÇrad^2*s^-2*kg*m=N=10^6uN¡ª¡ª¿¼ÂÇ³á°ò¹ßĞÔÁ¦
+% F_N=F_ytran+F_yrot+F_yadd1;    % µ¥Î»ÊÇrad^2*s^-2*kg*m=N=10^6uN  ¡ª¡ª²»¿¼ÂÇ³á°ò¹ßĞÔÁ¦
+F_N=F_ytran+F_yrot+F_yadd1+F_inert_y;    % µ¥Î»ÊÇrad^2*s^-2*kg*m=N=10^6uN¡ª¡ª¿¼ÂÇ³á°ò¹ßĞÔÁ¦
 % figure(21)
 % plot(t/T,F_N,'k-','LineWidth',2)
 % xlabel('\itNormalized time')
@@ -357,47 +326,40 @@ F_N=F_ytran+F_yrot+F_yadd1;    % µ¥Î»ÊÇrad^2*s^-2*kg*m=N=10^6uN  ¡ª¡ª²»¿¼ÂÇ³á°ò¹
 % hold on
 % L=length(t);
 % plot([0,t(L)/T],[0,0],'k-','LineWidth',2);     %»­x-axis
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% ³á×ø±êÏµÏÂ£ºÆ¬Ôª·¨ÏòºÏÁ¦·Ö½âµ½Æ¬Ôª´¹Ö±·½ÏòºÍË®Æ½·½Ïò£»×÷ÓÃµã£ºÆ¬ÔªÏÒ³¤ÖĞµã
-F_vertical=-sign(alpha).*cos(alpha).*F_N;                % ´¹Ö±·½Ïòvertical, %µ¥Î»ÊÇuN  %¡ª¡ªÊµ¼ÊÉÏ¸ÃÊ½¼ÆËã¸ü¿ì£¬¶øÇÒÓëÊµÑé½á¹û¶Ô±ÈĞÔ·½±ã
-% F_vertical=sign(alpha).*sin(psi).*F_N;                   % ´¹Ö±·½Ïòvertical, %µ¥Î»ÊÇuN  % ¡ª¡ª¸ù¾İ¹«Ê½ÍÆµ¼¸Ã²ÉÓÃ±¾Ê½
-F_horizontal=sin(abs(alpha)).*F_N;                          % Ë®Æ½·½Ïòhorizontal,%µ¥Î»ÊÇuN
+F_vertical=-sign(alpha).*F_N.*cos(alpha);                              % ´¹Ö±·½Ïòvertical, %µ¥Î»ÊÇuN  %  
+F_horizontal=F_N.*sin(abs(alpha));                          % Ë®Æ½·½Ïòhorizontal,%µ¥Î»ÊÇuN
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % % F_horizontal=-sign(alpha).*F_N.*sin(alpha);     % Ë®Æ½·½Ïòhorizontal,%µ¥Î»ÊÇuN
 % F_vertical=abs(F_N.*cos(alpha));                          % ´¹Ö±·½Ïòvertical, %µ¥Î»ÊÇuN
 % F_horizontal=abs(sign(alpha).*F_N.*sin(alpha));  % Ë®Æ½·½Ïòhorizontal,%µ¥Î»ÊÇuN
-%% ³æÌå×ø±êÏµÏÂ£º ²à±ßÁ¦(side force)F_horiz_XºÍË®Æ½ÍÆ×èÁ¦(drag)=F_horiz_y
-% F_Z=F_vertical;
-% F_horiz_X=-sin(phi).*F_horizontal;
-% F_horiz_Y=cos(phi).*F_horizontal;  
-F_horiz_X=-sin(phi).*cos(psi).*F_N; % ²à±ßÁ¦(side force)F_horiz_X
-F_horiz_Y=cos(phi).*cos(psi).*F_N;  % Ë®Æ½ÍÆ×èÁ¦(drag)=F_horiz_y
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-g_uN=9.821;   % ÕâÀïÖØÁ¦¼ÓËÙ¶È:g=9.821N/kg=9.821*10^6/10^6=9.821 uN/mg  ¡ª¡ªgµÄ¹ú¼Êµ¥Î»ÊÇm*s^-2»òN*kg^-1
-F_vaver=trapz(t,F_vertical)/(3*T)/g_uN;               % F_vaver =1.2532; %µ¥Î»ÊÇmg      1.2532(º¬¹ßĞÔÁ¦)
-F_haver=trapz(t,F_horiz_Y)/(3*T)/g_uN;          % F_haver =-0.1109; %µ¥Î»ÊÇmg     -0.1109(º¬¹ßĞÔÁ¦)
-F_haverabs=trapz(t,abs(F_horiz_Y))/(3*T);    
-F_v2haver=F_vaver/F_haverabs;                % ÉıÁ¦ºÍ×èÁ¦±ÈÖµ: F_v2haver =0.1150;  0.1045(º¬¹ßĞÔÁ¦)¡ª¡ª²»ÊÇÉı×èÏµÊıµÄ±ÈÖµ£¬Ã»ÓĞÊµ¼ÊÒâÒå£¿
+%% ³æÌå×ø±êÏµÏÂ£º×èÁ¦(drag)=F_horiz_y ºÍ²à±ßÁ¦(side force)F_horiz_X
+% F_Z=F_vertical;
+F_horiz_Y=cos(phi).*F_horizontal;  
+% F_horiz_X=sin(phi).*F_horizontal;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% g_uN=9.821;   % ÕâÀïÖØÁ¦¼ÓËÙ¶È:g=9.821N/kg=9.821*10^6/10^6=9.821 uN/mg  ¡ª¡ªgµÄ¹ú¼Êµ¥Î»ÊÇm*s^-2»òN*kg^-1
+% F_vaver=trapz(t,F_vertical)/(3*T)/g_uN               % F_vaver =1.2532; %µ¥Î»ÊÇmg      1.2532(º¬¹ßĞÔÁ¦)
+% F_haver=trapz(t,F_horiz_Y)/(3*T)/g_uN          % F_haver =-0.1109; %µ¥Î»ÊÇmg     -0.1109(º¬¹ßĞÔÁ¦)
+% F_haverabs=trapz(t,abs(F_horiz_Y))/(3*T);    
+% F_v2haver=F_vaver/F_haverabs                % ÉıÁ¦ºÍ×èÁ¦±ÈÖµ: F_v2haver =0.1150;  0.1045(º¬¹ßĞÔÁ¦)¡ª¡ª²»ÊÇÉı×èÏµÊıµÄ±ÈÖµ£¬Ã»ÓĞÊµ¼ÊÒâÒå£¿
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 g=9.81;         % ÕâÀïÖØÁ¦¼ÓËÙ¶È:g=9.821N/kg=9.821*10^6/10^6=9.821 uN/mg  ¡ª¡ªgµÄ¹ú¼Êµ¥Î»ÊÇm*s^-2»òN*kg^-1
 M_body =1.8;  %¹ûÓ¬³æÌåµÄÖÊÁ¿(mg)¡ªScience¡ª¡ªM_body =1.8e-06;(kg)
 W=M_body*g;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% ¶ÁÈëscience»úĞµ¹ûÓ¬³á°ò²âµÃÆø¶¯Á¦Êı¾İ¡ª¡ª¹éÒ»»¯Ö®ºóµÄÊı¾İ
-% %%ÏÂÃæµÄ¶ÁÈëÊı¾İÓĞÎó%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% % % output_1=[t_NOfreq,Fx_norm_stroke_butterfilt_mean,Fy_norm_stroke_butterfilt_mean,Fz_norm_stroke_butterfilt_mean];
+% output_1=[t_NOfreq,Fx_norm_stroke_butterfilt_mean,Fy_norm_stroke_butterfilt_mean,Fz_norm_stroke_butterfilt_mean];
 % force_science=xlsread('D:\KXJ\PassiveRot_dynamic_Science_fruitfly\aerodynamic_moment\aerodynamic_moment_model2_2\force_science.xlsx','A1:D1145'); % ¶ÁÈëÊı¾İ
-%ÏÂÃæ¶ÁÈëÊı¾İÕıÈ·%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% output_1=[t_NOfreq,Fx_norm_all_butterfilt_steady,Fy_norm_all_butterfilt_steady,Fz_norm_all_butterfilt_steady];
-% force_science=xlsread('D:\KXJ\PassiveRot_dynamic_Science_fruitfly\wing_parameter\datanalysis_science_fruitfly\robotForcesTorques\ForceModulations\aeroforce_for_steady_wingbeat.xlsx','A1:D1145');
-force_science=xlsread('aeroforce_for_steady_wingbeat.xlsx',1,'A1:D1145'); % ¶ÁÈëÊı¾İ
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+force_science=xlsread('D:\KXJ\PassiveRot_dynamic_Science_fruitfly\wing_parameter\datanalysis_science_fruitfly\robotForcesTorques\ForceModulations\aeroforce_for_steady_wingbeat.xlsx','A1:D1145');
+% force_science=load('force_science.csv');  % ÔØÈëÊı¾İ
 t_NOfreq1=force_science(:,1);  % t_NOfreq(1,1)=0;
 Fx_norm1=-force_science(:,2);
-Fy_norm1=force_science(:,3);
+% Fy_norm1=force_science(:,3);
 Fz_norm1=-force_science(:,4); 
 t_NOfreq=[t_NOfreq1+0.0052824335;t_NOfreq1+T+0.0052824335;t_NOfreq1+2*T+0.0052824335];
 Fx_norm=[Fx_norm1;Fx_norm1;Fx_norm1];
-Fy_norm=[Fy_norm1;Fy_norm1;Fy_norm1];
 Fz_norm=[Fz_norm1;Fz_norm1;Fz_norm1];       % size(Fz_norm)  % (3435*1)
 % figure(22)
 % plot(t_NOfreq/T,Fz_norm,'r--',t_NOfreq/T,Fx_norm,'b--','LineWidth',2)
@@ -410,52 +372,23 @@ Fz_norm=[Fz_norm1;Fz_norm1;Fz_norm1];       % size(Fz_norm)  % (3435*1)
 % set(gca,'XTick',(0.9:0.1:4.05))
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% ·¨ÏòºÏÁ¦·Ö½âµ½´¹Ö±·½ÏòºÍË®Æ½·½ÏòµÄ·ÖÁ¿Á¦ËæÊ±¼äµÄ±ä»¯¹æÂÉÓëÊµÑé²âÊÔ½á¹ûµÄ¶Ô±È
-figure(44)
-plot(t_NOfreq/T,Fz_norm,'r-',t_NOfreq/T,Fx_norm,'b-','LineWidth',2.5)  % ÊµÑé²âÊÔ½á¹û
-hold on
-% 1.525¡ª¡ª¿¼ÂÇ³á°ò¹ßĞÔÁ¦  % 1.65¡ª¡ª²»¿¼ÂÇ³á°ò¹ßĞÔÁ¦¡ª¡ª¡ª¡ª¡ª¡ªÑÏ¸ñÒâÒåÉÏ½²Ó¦¸ÃÊÇÁ½¸ö³á°ò²úÉúµÄ×Ü×÷ÓÃÁ¦
-% plot(t/T,2*F_vertical/W,'r-.',t/T,2*F_horiz_Y/W,'b-.','LineWidth',2)       % ÀíÂÛÔ¤²â½á¹û
-% plot(t/T,1.65*F_vertical/W,'r-.',t/T,1.65*F_horiz_Y/W,'b-.','LineWidth',2)  
-% plot(t/T,1.5*F_vertical/W,'r-.',t/T,2.4*F_horiz_Y/W,'b-.','LineWidth',2)    % ÓÃÓÚÓëÊµÑé½á¹û¶Ô±ÈÅ¶
-% plot(t/T,1.45*F_vertical/W,'r-.',t/T,2.3*F_horiz_Y/W,'b-.','LineWidth',2.5)  
-% plot(t/T,1.65*F_vertical/W,'r-.',t/T,2.3*F_horiz_Y/W,'b-.','LineWidth',2.5)  % º¬¹ßĞÔÁ¦ % ÓÃÓÚÓëÊµÑé½á¹û¶Ô±ÈÅ¶
-plot(t/T,1.45*F_vertical/W,'r-.',t/T,2.0*F_horiz_Y/W,'b-.','LineWidth',2.5)     % ²»º¬¹ßĞÔÁ¦ % ÓÃÓÚÓëÊµÑé½á¹û¶Ô±ÈÅ¶ x=[1,1.8,0.35,1];
-% plot(t/T,2*F_vertical/W,'r-.',t/T,2.0*F_horiz_Y/W,'b-.','LineWidth',2.5) 
-% plot(t/T,1.425*F_vertical/W,'r-.',t/T,2.225*F_horiz_Y/W,'b-.','LineWidth',2.5)  
-xlabel('\rmNormalized time','Fontsize',24,'FontName','Times','FontWeight','Bold')
-% ylabel('\itF_{vertical} & F_{horiz,Y} (uN)')
-% legend('F_{vertical}','F_{horiz,Y}')
-ylabel('\rmF / m_{body}g','Fontsize',24,'FontName','Times','FontWeight','Bold')
-legend('F_{vert,z,exp}','F_{horiz,y,exp}','F_{vert,z,cal}','F_{horiz,y,cal}')
-box on
-set(gca,'LineStyle','-','LineWidth',1.5,'FontSize',20,'FontName','Times','FontWeight','Bold')
-% title('·¨ÏòºÏÁ¦·Ö½âµ½´¹Ö±·½ÏòºÍË®Æ½·½ÏòµÄ·ÖÁ¿Á¦ËæÊ±¼äµÄ±ä»¯¹æÂÉÓëÊµÑé²âÊÔ½á¹ûµÄ¶Ô±È')   
-% grid on
-%%%%%%%%%%%%%%%%%%%%%%%%
-axis([0.9,4.05,-4,4])
-% set(gca,'XTick',(0.9:0.1:4.05))
-hold on
-L=length(t);
-plot([0,t(L)/T],[0,0],'k-','LineWidth',2);     %»­x-axis
-axis([min(t/T),min(t/T)+1,-4,3])
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%
-% figure(45)
-% plot(t_NOfreq/T,Fz_norm,'r-',t_NOfreq/T,Fx_norm,'b-',t_NOfreq/T,Fy_norm,'g-','LineWidth',2)  % ÊµÑé²âÊÔ½á¹û
+% figure(23)
+% plot(t_NOfreq/T,Fz_norm,'r--',t_NOfreq/T,Fx_norm,'b--','LineWidth',2)
 % hold on
 % % 1.525¡ª¡ª¿¼ÂÇ³á°ò¹ßĞÔÁ¦  % 1.65¡ª¡ª²»¿¼ÂÇ³á°ò¹ßĞÔÁ¦¡ª¡ª¡ª¡ª¡ª¡ªÑÏ¸ñÒâÒåÉÏ½²Ó¦¸ÃÊÇÁ½¸ö³á°ò²úÉúµÄ×Ü×÷ÓÃÁ¦
-% plot(t/T,2*F_vertical/W,'r-.',t/T,2*F_horiz_Y/W,'b-.',t/T,0*F_horiz_X/W,'g-.','LineWidth',2)       % ÀíÂÛÔ¤²â½á¹û
-% xlabel('\rmNormalized time','Fontsize',20,'FontName','Times','FontWeight','Bold')
-% ylabel('\rmF / m_{body}g','Fontsize',20,'FontName','Times','FontWeight','Bold')
-% legend('F_{vert,z,exp}','F_{horiz,y,exp}','F_{lateral,x,exp}','F_{vert,z,cal}','F_{horiz,y,cal}','F_{lateral,x,cal}')
-% set(gca,'FontSize',12,'FontName','Times','FontWeight','Bold')
-% axis([0.9,4.05,-4,4])
+% plot(t/T,2*F_vertical/W,'r-',t/T,2*F_horiz_Y/W,'b-','LineWidth',2)  
+% % plot(t/T,1.65*F_vertical/W,'r-',t/T,1.65*F_horiz_Y/W,'b-','LineWidth',2)  
+% xlabel('\itNormalized time')
+% ylabel('\itF_{vertical} & F_{horiz,Y} (uN)')
+% % legend('F_{vertical}','F_{horiz,Y}')
+% legend('F_{z,exp}','F_{x,exp}','F_{vertical,Z,cal}','F_{horiz,Y,cal}')
+% title('·¨ÏòºÏÁ¦·Ö½âµ½´¹Ö±·½ÏòºÍË®Æ½·½ÏòµÄ·ÖÁ¿Á¦ËæÊ±¼äµÄ±ä»¯¹æÂÉÓëÊµÑé²âÊÔ½á¹ûµÄ¶Ô±È')   
+% grid on
+% axis([0.9,4.05,-inf,inf])
+% set(gca,'XTick',(0.9:0.1:4.05))
 % hold on
 % L=length(t);
 % plot([0,t(L)/T],[0,0],'k-','LineWidth',2);     %»­x-axis
-
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -491,17 +424,6 @@ axis([min(t/T),min(t/T)+1,-4,3])
 % axis([0.9,4.05,-inf,inf])
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%% Æ½¾ùÖµµÄ¶Ô±È
-%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% F_v_norm_aver=trapz(t,1.5*F_vertical/W)/(3*T)
-% Fz_norm_aver=trapz(t,Fz_norm)/(3*T)
-% F_haver_norm=trapz(t,2.4*F_horiz_Y/W)/(3*T)
-% Fx_norm_aver=trapz(t,Fx_norm)/(3*T)
-% F_vert_relaerror=abs(F_v_norm_aver-Fz_norm_aver)/Fz_norm_aver*100
-% F_horiz_relaerror=abs(abs(F_haver_norm)-abs(Fx_norm_aver))/abs(Fx_norm_aver)*100
-% F_horiz_relaerror=abs(abs(F_haver_norm)-abs(Fx_norm_aver))/abs(F_haver_norm)*100
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Õë¶ÔËÄ¸öÆø¶¯Á¦ÏµÊıµÄ³Í·£ÏîµÄÔ¼Êø
 coeff_con=aeroF_coeff_constraint(x);
@@ -510,8 +432,9 @@ s=2000;
 penaltyfun=s*coeff_con;           % penaltyfun =;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % stdev=std((2*F_vertical-Fz_norm),0,1);   % °´ÕÕS1(0)Çó½â¸÷ÁĞ(1)ÔªËØµÄ±ê×¼·½²î
-stdev_v=std((abs(2*F_vertical)-abs(Fz_norm)),0,1);   % °´ÕÕS1(0)Çó½â¸÷ÁĞ(1)ÔªËØµÄ±ê×¼·½²î
-stdev_h=std((abs(2*F_horiz_Y)-abs(Fx_norm)),0,1);   % °´ÕÕS1(0)Çó½â¸÷ÁĞ(1)ÔªËØµÄ±ê×¼·½²î
-obj_function=stdev_v+stdev_h+penaltyfun;  % obj_function =40.1316;
-% toc  % Elapsed time is 3.401964 seconds.
+stdev_v=std((2*F_vertical-Fz_norm),0,1);   % °´ÕÕS1(0)Çó½â¸÷ÁĞ(1)ÔªËØµÄ±ê×¼·½²î
+stdev_h=std((2*F_horiz_Y-Fx_norm),0,1);   % °´ÕÕS1(0)Çó½â¸÷ÁĞ(1)ÔªËØµÄ±ê×¼·½²î
+obj_function=stdev_v+stdev_h+penaltyfun;
+% save('obj_function.txt', 'obj_function', '-ASCII')
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% toc
